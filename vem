@@ -9,14 +9,18 @@ __vem() {
   [[ ${1%*-} == 'v' || ${1%*-} == 'version' ]] && ( cat $HOME/.venv/.version; exit )
 
   # Parse venv location
+  local __cwd=`pwd`
   local venvPath=`[[ ${1%-} =~ 'p' ]] && echo "$HOME/.venv/py" || echo "$HOME/.venv/js"`
 }
 
 # Main
 # Ensure setup of VEM
 [ ! -d $HOME/.venv ] && mkdir $HOME/.venv && mkdir $HOME/.venv/py && mkdir $HOME/.venv/js
-[ ! -e $HOME/.venv/.help ] && cp $(find -type d -name vem)/.help $HOME/.venv
-[ ! -e $HOME/.venv/.version ] && cp $(find -type d -name vem)/.version $HOME/.venv
+[ ! -e $HOME/.venv/.help ] && cp "$(find ~ -type d -name vem)/.help" $HOME/.venv
+[ ! -e $HOME/.venv/.version ] && cp $(find ~ -type d -name vem)/.version $HOME/.venv
 
 # Call VEM
 __vem $@
+
+# Cleanup under accidental sourcing
+unset __vem
