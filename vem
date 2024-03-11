@@ -4,20 +4,20 @@
 # Funcs and vars
 __vem() {
   # Check special args
-  [[ "$@" == "" ]] && ( cat $HOME/.venv/.help | head -1; exit )
-  [[ ${1%*-} == 'h' || ${1%*-} == 'help' ]] && ( cat $HOME/.venv/.help; exit )
-  [[ ${1%*-} == 'v' || ${1%*-} == 'version' ]] && ( cat $HOME/.venv/.version; exit )
+  [[ "$@" == "" ]] && ( cat $HOME/.vem/.help | head -1; exit )
+  [[ ${1%*-} == 'h' || ${1%*-} == 'help' ]] && ( cat $HOME/.vem/.help; exit )
+  [[ ${1%*-} == 'v' || ${1%*-} == 'version' ]] && ( cat $HOME/.vem/.version; exit )
 
-  # Parse venv location
+  # Parse vem location
   local __cwd=`pwd`
-  local venvPath=`[[ ${1%-} =~ 'p' ]] && echo "$HOME/.venv/py" || echo "$HOME/.venv/js"`
+  local vemPath=`[[ ${1%-} =~ 'p' ]] && echo "$HOME/.vem/py" || echo "$HOME/.vem/js"`
 }
 
 # Main
 # Ensure setup of VEM
-[ ! -d $HOME/.venv ] && mkdir $HOME/.venv && mkdir $HOME/.venv/py && mkdir $HOME/.venv/js
-[ ! -e $HOME/.venv/.help ] && cp "$(find ~ -type d -name vem)/.help" $HOME/.venv
-[ ! -e $HOME/.venv/.version ] && cp $(find ~ -type d -name vem)/.version $HOME/.venv
+[ ! -d $HOME/.vem ] && mkdir $HOME/.vem && mkdir $HOME/.vem/py && mkdir $HOME/.vem/js
+[ ! -e $HOME/.vem/.help ] && cp "$(find ~ -type d -name VEM)/.help" $HOME/.vem
+[ ! -e $HOME/.vem/.version ] && cp $(find ~ -type d -name VEM)/.version $HOME/.vem
 
 # Call VEM
 __vem $@
