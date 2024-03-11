@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Virtual Environment Manager for Python and Node
+# Funcs and vars
+__vem() {
+  # Check special args
+  [[ "$@" == "" ]] && ( cat $HOME/.venv/.help | head -1; exit )
+  [[ ${1%*-} == 'h' || ${1%*-} == 'help' ]] && ( cat $HOME/.venv/.help; exit )
+  [[ ${1%*-} == 'v' || ${1%*-} == 'version' ]] && ( cat $HOME/.venv/.version; exit )
+
+  # Parse venv location
+  local venvPath=`[[ ${1%-} =~ 'p' ]] && echo "$HOME/.venv/py" || echo "$HOME/.venv/js"`
+}
+
+# Main
+# Ensure setup of VEM
+[ ! -d $HOME/.venv ] && mkdir $HOME/.venv && mkdir $HOME/.venv/py && mkdir $HOME/.venv/js
+[ ! -e $HOME/.venv/.help ] && cp $(find -type d -name vem)/.help $HOME/.venv
+[ ! -e $HOME/.venv/.version ] && cp $(find -type d -name vem)/.version $HOME/.venv
+
+# Call VEM
+__vem $@

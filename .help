@@ -1,0 +1,1 @@
+Usage: vem [-h|-v|--help|--version] <-p|-n> <ENV> [act|de]
