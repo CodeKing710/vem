@@ -5,8 +5,8 @@
 __vem() {
   # Check special args
   [[ "$@" == "" ]] && ( cat $HOME/.vem/.help | head -1; exit )
-  [[ ${1%*-} == 'h' || ${1%*-} == 'help' ]] && ( cat $HOME/.vem/.help; exit )
-  [[ ${1%*-} == 'v' || ${1%*-} == 'version' ]] && ( cat $HOME/.vem/.version; exit )
+  [[ "${1#*-}" =~ "h" ]] && ( cat $HOME/.vem/.help; exit )
+  [[ "${1#*-}" =~ "v" ]] && ( cat $HOME/.vem/.version; exit )
 
   # Parse vem location
   local __cwd=`pwd`
