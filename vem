@@ -1,14 +1,17 @@
 #!/bin/bash
 
 # Virtual Environment Manager for Python and Node
+
+# Ensure setup of VEM
+[ ! -d $HOME/.vem ] && mkdir $HOME/.vem && mkdir $HOME/.vem/py && mkdir $HOME/.vem/js
+[ ! -e $HOME/.vem/.help ] && cp $(find ~ -type d -name VEM)/.help $HOME/.vem
+[ ! -e $HOME/.vem/.version ] && cp $(find ~ -type d -name VEM)/.version $HOME/.vem
+[ ! -e $HOME/.vem/.lib ] && cp $(find ~ -type d -name VEM)/.lib $HOME/.vem
+
 # Funcs and vars
 . $HOME/.vem/.lib
 
 # Main
-# Ensure setup of VEM
-[ ! -d $HOME/.vem ] && mkdir $HOME/.vem && mkdir $HOME/.vem/py && mkdir $HOME/.vem/js
-[ ! -e $HOME/.vem/.help ] && cp "$(find ~ -type d -name VEM)/.help" $HOME/.vem
-[ ! -e $HOME/.vem/.version ] && cp $(find ~ -type d -name VEM)/.version $HOME/.vem
 
 # Call VEM
 __vem $@
