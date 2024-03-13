@@ -13,8 +13,6 @@
 # Funcs and vars
 . $HOME/.vem/.lib
 
-# Main
-
 # Call VEM
 __vem $@
 

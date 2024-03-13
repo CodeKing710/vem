@@ -1,32 +1,59 @@
 # GLOBALS
 __cwvem=""
+__cwd=`pwd`
 
 # VEM main
 __vem() {
-  # Parse vem location
-  local __cwd=`pwd`
-  __args $@
+  # Parse args
+  [ "$1" == "" ] && ( cat $HOME/.vem/help | head -1; exit ) || __args $@
+}
+
+# Set virtual env
+__setve() {
+  local ve="$1"
+  if [[ "$__cwvem" =~ "py" ]]; then
+    if [ -d "$__cwvem/$ve" ]; then
+      # Activate the environment
+      . "$__cwvem/$ve/Scripts/activate" || . "$__cwvem/$ve/bin/activate"
+    else
+      python -m venv $__cwvem/$ve
+      . "$__cwvem/$ve/Scripts/activate" || . "$__cwvem/$ve/bin/activate"
+    fi
+  elif [[ "$__cwvem" =~ "js" ]]; then
+    if [ -d "$__cwvem/$ve" ]; then
+      # Activate the environment
+      . "$__cwvem/$ve/activate-ve"
+    else
+      mkdir "$__cwvem/$ve"
+      echo -e "set NODE_PATH=$__cwvem/$ve; deactivate() {\n  unset NODE_PATH\n}" > "$__cwvem/$ve/activate-ve"
+      echo -e "[ \"\$1\" == \"\" ] && echo \"Must provide export location!\" || cp $__cwvem/$ve/package.json \"\$1\"" > "$__cwvem/$ve/export-ve"
+      cd "$__cwvem/$ve"
+      npm init -y
+      cd $__cwd
+      . "$__cwvem/$ve/activate-ve"
+    fi
+  fi
 }
 
 # Parse args
 __args() {
-  args="${@,#*-}"
+  args="${@,}"
   for arg in $args; do
     case $arg in
-      p | py | python )
+      -p | py | python )
         __cwvem="$HOME/.vem/py"
         ;;
-      n | j | js | node | javascript )
+      -n | -j | js | node | javascript )
         __cwvem="$HOME/.vem/py"
         ;;
-      h | help )
+      -h | help )
         cat $HOME/.vem/.help
         ;;
-      v | version )
+      -v | version )
         cat $HOME/.vem/.version
         ;;
       * )
-        cat $HOME/.vem/help | head -1
+        __setve $arg
         ;;
     esac
   done
