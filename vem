@@ -3,7 +3,9 @@
 # Virtual Environment Manager for Python and Node
 
 # Ensure setup of VEM
-[ ! -d $HOME/.vem ] && mkdir $HOME/.vem && mkdir $HOME/.vem/py && mkdir $HOME/.vem/js
+[ ! -d $HOME/.vem ] && mkdir $HOME/.vem
+[ ! -d $HOME/.vem/py ] && mkdir $HOME/.vem/py
+[ ! -d $HOME/.vem/js ] && mkdir $HOME/.vem/js
 [ ! -e $HOME/.vem/.help ] && cp $(find ~ -type d -name VEM)/.help $HOME/.vem
 [ ! -e $HOME/.vem/.version ] && cp $(find ~ -type d -name VEM)/.version $HOME/.vem
 [ ! -e $HOME/.vem/.lib ] && cp $(find ~ -type d -name VEM)/.lib $HOME/.vem
