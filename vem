@@ -10,11 +10,12 @@ __repo=`find ~ -type d -name VEM`
 [ ! -e $HOME/.vem/.help ] && cp $__repo/.help $HOME/.vem
 [ ! -e $HOME/.vem/.version ] && cp $__repo/.version $HOME/.vem
 [ ! -e $HOME/.vem/.lib ] && cp $__repo.lib $HOME/.vem
-[[ "$(cat ~/.bashrc | grep "alias vem")" == "" ]] && echo 'alias vem="source ~/bin/vem"' >> ~/.bashrc
+[[ "$(cat ~/.bashrc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source ~/bin/vem\"\nalias vemp=\"source ~/bin/vem py\"\nalias vemj=\"source ~/bin/vem js\"" >> ~/.bashrc
 [[ `diff ~/bin/vem "$__repo/vem"` ]] && cp $__repo/vem ~/bin/vem
 [[ `diff ~/.vem/.lib "$__repo/.lib"` ]] && cp $__repo/.lib ~/.vem/.lib
 [[ `diff ~/.vem/.help "$__repo/.help"` ]] && cp $__repo/.help ~/.vem/.help
 [[ `diff ~/.vem/.version "$__repo/.version"` ]] && cp $__repo/.version ~/.vem/.version
+[ `ls -la ~ | grep .vem | cut -c9` == '-' ] && chmod -R +w $HOME/.vem
 
 # Funcs and vars
 . $HOME/.vem/.lib

@@ -1,6 +1,8 @@
 # GLOBALS
 __cwvem=""
 __cwd=`pwd`
+# __cwd=$(echo "C:\\`pwd | cut -c4-`" | sed 's:/:\\:g')
+
 
 # VEM main
 __vem() {
@@ -12,33 +14,44 @@ __vem() {
 __setve() {
   local ve="$1"
   if [[ "$__cwvem" =~ "py" ]]; then
-    if [ -d "$__cwvem/$ve" ]; then
+    if [ -e "$__cwvem/$ve/Scripts/activate" -o -e "$__cwvem/$ve/bin/activate" ]; then
       # Activate the environment
-      . "$__cwvem/$ve/Scripts/activate" || . "$__cwvem/$ve/bin/activate"
+      echo "Activating virtual environment $ve..."
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null || . "$__cwvem/$ve/bin/activate"
+      echo "Environment activated!"
     else
-      python -m venv $__cwvem/$ve
-      . "$__cwvem/$ve/Scripts/activate" || . "$__cwvem/$ve/bin/activate"
+      echo "Making virtual environment $ve..."
+      mkdir "$__cwvem/$ve"
+      python -m venv "$__cwvem/$ve"
+      echo "Complete! Activating..."
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null || . "$__cwvem/$ve/bin/activate"
+      echo "Environment activated!"
     fi
   elif [[ "$__cwvem" =~ "js" ]]; then
-    if [ -d "$__cwvem/$ve" ]; then
+    if [ -e "$__cwvem/$ve/activate-ve" ]; then
+      NVENV="$ve"
       # Activate the environment
+      echo "Activating virtual environment $ve..."
       . "$__cwvem/$ve/activate-ve"
+      echo "Environment activated! To install new packages, you must be in this directory!"
     else
+      NVENV="$ve"
+      echo "Making virtual environment $ve..."
       mkdir "$__cwvem/$ve"
-      echo -e "set NODE_PATH=$__cwvem/$ve; deactivate() {\n  unset NODE_PATH\n}" > "$__cwvem/$ve/activate-ve"
+      echo -e "OLD_PS1='\$PS1'; PS1='(\$NVENV) ''\$PS1'; NODE_PATH=$__cwvem/$ve; deactivate() {\n  PS1='\$OLD_PS1'\n  unset NODE_PATH\n  unalias npm\n}" > "$__cwvem/$ve/activate-ve"
       echo -e "[ \"\$1\" == \"\" ] && echo \"Must provide export location!\" || cp $__cwvem/$ve/package.json \"\$1\"" > "$__cwvem/$ve/export-ve"
       cd "$__cwvem/$ve"
       npm init -y
-      cd $__cwd
+      echo "Complete! Activating..."
       . "$__cwvem/$ve/activate-ve"
+      echo "Environment activated! To install new packages, you must be in this directory!"
     fi
   fi
 }
 
 # Parse args
 __args() {
-  args="${@,}"
-  for arg in $args; do
+  for arg in $@; do
     case $arg in
       -p | py | python )
         __cwvem="$HOME/.vem/py"
