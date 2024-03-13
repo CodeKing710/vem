@@ -24,4 +24,4 @@ __repo=`find ~ -type d -name VEM`
 __vem $@
 
 # Cleanup (Program must be sourced)
-unset __vem __args __cwvem __cwd __setve
+unset __vem __args __cwvem __cwd __setve __repo __del __delve arg

@@ -13,6 +13,12 @@ __vem() {
 # Set virtual env
 __setve() {
   local ve="$1"
+  echo "$ve"
+  if [[ "$ve" == "" ]]; then
+    echo "Must provide a name for the environment!"
+    exit
+  fi
+
   if [[ "$__cwvem" =~ "py" ]]; then
     if [ -e "$__cwvem/$ve/Scripts/activate" -o -e "$__cwvem/$ve/bin/activate" ]; then
       # Activate the environment
@@ -21,7 +27,6 @@ __setve() {
       echo "Environment activated!"
     else
       echo "Making virtual environment $ve..."
-      mkdir "$__cwvem/$ve"
       python -m venv "$__cwvem/$ve"
       echo "Complete! Activating..."
       . "$__cwvem/$ve/Scripts/activate" 2>/dev/null || . "$__cwvem/$ve/bin/activate"
@@ -38,7 +43,7 @@ __setve() {
       NVENV="$ve"
       echo "Making virtual environment $ve..."
       mkdir "$__cwvem/$ve"
-      echo -e "OLD_PS1='\$PS1'; PS1='(\$NVENV) ''\$PS1'; NODE_PATH=$__cwvem/$ve; deactivate() {\n  PS1='\$OLD_PS1'\n  unset NODE_PATH\n  unalias npm\n}" > "$__cwvem/$ve/activate-ve"
+      echo -e "OLD_PS1='\$PS1'; PS1='(\$NVENV) ''\$PS1'; NODE_PATH=$__cwvem/$ve; deactivate() {\n  PS1='\$OLD_PS1'\n  unset NODE_PATH OLD_PS1\n  unalias npm\n}" > "$__cwvem/$ve/activate-ve"
       echo -e "[ \"\$1\" == \"\" ] && echo \"Must provide export location!\" || cp $__cwvem/$ve/package.json \"\$1\"" > "$__cwvem/$ve/export-ve"
       cd "$__cwvem/$ve"
       npm init -y
@@ -46,6 +51,19 @@ __setve() {
       . "$__cwvem/$ve/activate-ve"
       echo "Environment activated! To install new packages, you must be in this directory!"
     fi
+  else
+    echo "Failed to find or create environment $ve!"
+  fi
+}
+
+# Remove venv
+__delve() {
+  local ve="$1"
+  if [ -d "$__cwvem/$ve" ]; then
+    rm "$__cwvem/$ve"
+    echo "Successfully removed virtual environment $ve!"
+  else
+    echo "Failed to remove virtual environment $ve!"
   fi
 }
 
@@ -55,9 +73,11 @@ __args() {
     case $arg in
       -p | py | python )
         __cwvem="$HOME/.vem/py"
+        __del=false
         ;;
-      -n | -j | js | node | javascript )
-        __cwvem="$HOME/.vem/py"
+      -j | js | javascript )
+        __cwvem="$HOME/.vem/js"
+        __del=false
         ;;
       -h | help )
         cat $HOME/.vem/.help
@@ -65,8 +85,11 @@ __args() {
       -v | version )
         cat $HOME/.vem/.version
         ;;
+      -d | del | delete )
+        __del=true
+        ;;
       * )
-        __setve $arg
+        [ $__del ] && __delve $arg || __setve $arg
         ;;
     esac
   done
