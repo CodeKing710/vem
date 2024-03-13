@@ -2,16 +2,7 @@
 
 # Virtual Environment Manager for Python and Node
 # Funcs and vars
-__vem() {
-  # Check special args
-  [[ "$@" == "" ]] && ( cat $HOME/.vem/.help | head -1; exit )
-  [[ "${1#*-}" =~ "h" ]] && ( cat $HOME/.vem/.help; exit )
-  [[ "${1#*-}" =~ "v" ]] && ( cat $HOME/.vem/.version; exit )
-
-  # Parse vem location
-  local __cwd=`pwd`
-  local vemPath=`[[ ${1%-} =~ 'p' ]] && echo "$HOME/.vem/py" || echo "$HOME/.vem/js"`
-}
+. $HOME/.vem/.lib
 
 # Main
 # Ensure setup of VEM
@@ -23,4 +14,4 @@ __vem() {
 __vem $@
 
 # Cleanup under accidental sourcing
-unset __vem
+unset __vem __args __cwvem
