@@ -73,11 +73,9 @@ __args() {
     case $arg in
       -p | py | python )
         __cwvem="$HOME/.vem/py"
-        __del=false
         ;;
       -j | js | javascript )
         __cwvem="$HOME/.vem/js"
-        __del=false
         ;;
       -h | help )
         cat $HOME/.vem/.help
