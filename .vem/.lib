@@ -74,10 +74,10 @@ __args() {
         __cwvem="$HOME/.vem/js"
         ;;
       -h | help )
-        cat $HOME/.vem/.help
+        cat $HOME/.vem/help
         ;;
       -v | version )
-        cat $HOME/.vem/.version
+        cat $HOME/.vem/version
         ;;
       -d | del | delete )
         __del=true
