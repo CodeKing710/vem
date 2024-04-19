@@ -1,15 +1,11 @@
-# GLOBALS
-__cwvem=""
+#!/bin/bash
+
+# vem's Functions and Variables
+
+# Vars
 __cwd=`pwd`
-# __cwd=$(echo "C:\\`pwd | cut -c4-`" | sed 's:/:\\:g')
 
-
-# VEM main
-__vem() {
-  # Parse args
-  [ "$1" == "" ] && ( cat $HOME/.vem/.help | head -1; exit ) || __args $@
-}
-
+# Funcs
 # Set virtual env
 __setve() {
   local ve="$1"
