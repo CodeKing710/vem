@@ -1,9 +1,9 @@
-#!/bin/bash 2>> ~/.vem/err.log
+#!/bin/bash
 
 # Virtual Environment Manager for Python and Node
 
 # Ensure setup of VEM
-__repo=`find ~ -type d -name VEM`
+__repo=`find ~ -type d -name VEM 2>/dev/null`
 [ ! -d $HOME/.vem ] && mkdir $HOME/.vem
 [ ! -d $HOME/.vem/py ] && mkdir $HOME/.vem/py
 [ ! -d $HOME/.vem/js ] && mkdir $HOME/.vem/js
