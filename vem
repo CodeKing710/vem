@@ -1,4 +1,4 @@
-#!/bin/bash 2>~/.vem/err.log
+#!/bin/bash 2>>~/.vem/err.log
 
 # Virtual Environment Manager for Python and Node
 
