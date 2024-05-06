@@ -3,10 +3,10 @@
 # vem's installer
 install() {
   local repo=$(find $HOME -type d -name vem)
-  cp $repo/vem $HOME/bin || return false
-  cp -r $repo/.vem $HOME || return false
+  cp $repo/vem $HOME/bin || return
+  cp -r $repo/.vem $HOME || return
   [[ "$(cat $HOME/.bashrc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source $HOME/bin/vem\"\nalias vemp=\"source $HOME/bin/vem py\"\nalias vemj=\"source $HOME/bin/vem js\"" >> $HOME/.bashrc
   echo "vem installed!"
 }
 
-install || echo "Install failed!"
+install

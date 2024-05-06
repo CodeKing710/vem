@@ -3,8 +3,10 @@
 # vem's main code
 
 # Check for updates
-[ ! -d ~/.vem ] && $(find $HOME -type d -name vem)/install
-if [[ `diff $(find $HOME -type d -name vem)/.vem ~/.vem` ]]; then echo "Updating vem..."; $(find $HOME -type d -name vem)/install; fi
+repo=$(find $HOME -type d -name vem)
+
+[ ! -d ~/.vem ] && $repo/install
+if [[ `diff $repo/.vem/.lib ~/.vem/.lib` || `diff $repo/.vem/help ~/.vem/help` || `diff $repo/.vem/version ~/.vem/version` || `diff $repo/vem ~/bin/vem` ]]; then echo "Updating vem..."; $(find $HOME -type d -name vem)/install; fi
 
 # Load lib
 source $HOME/.vem/.lib
