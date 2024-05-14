@@ -4,6 +4,7 @@
 
 # Vars
 __cwd=`pwd`
+prgroot="$HOME/.vem"
 
 # Funcs
 # Set virtual env
@@ -12,6 +13,10 @@ __setve() {
   verbose "$ve"
   if [[ "$ve" == "" ]]; then
     echo "Must provide a name for the environment!"
+    return
+  elif [[ "$ve" == "listall" ]]; then
+    echo "Current Python Environments:"; ls -A1 $prgroot/py | cut -d '/' -f1
+    echo "Current Node Environments:"; ls -A1 $prgroot/js | cut -d '/' -f1
     return
   fi
 
