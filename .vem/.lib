@@ -46,18 +46,18 @@ __setve() {
       # Activate the environment
       echo "Activating virtual environment $ve..."
       . "$__cwvem/$ve/activate-ve"
-      echo "Environment activated! To install new packages, you must be in this directory!"
+      echo "Environment activated! To install new packages, you must be in this directory! Path stays alive until terminal restart!"
     else
       NVENV="$ve"
       echo "Making virtual environment $ve..."
       mkdir "$__cwvem/$ve"
-      echo -e "OLD_PS1='\$PS1'; PS1='(\$NVENV) ''\$PS1'; NODE_PATH=$__cwvem/$ve; deactivate() {\n  PS1='\$OLD_PS1'\n  unset NODE_PATH OLD_PS1\n  unalias npm\n}" > "$__cwvem/$ve/activate-ve"
+      echo -e 'OLD_PS1="$PS1"; PS1="($NVENV) $PS1"; NODE_PATH=~/.vem/js/'"$ve\n"' deactivate() {'"\n"'  PS1="$OLD_PS1"'"\n"'  unset OLD_PS1'"\n"'}' > "$__cwvem/$ve/activate-ve"
       echo -e "[ \"\$1\" == \"\" ] && echo \"Must provide export location!\" || cp $__cwvem/$ve/package.json \"\$1\"" > "$__cwvem/$ve/export-ve"
       cd "$__cwvem/$ve"
       npm init -y
       echo "Complete! Activating..."
       . "$__cwvem/$ve/activate-ve"
-      echo "Environment activated! To install new packages, you must be in this directory!"
+      echo "Environment activated! To install new packages, you must be in this directory! Path stays alive until terminal restart!"
     fi
   else
     echo "Failed to find or create environment $ve!"
