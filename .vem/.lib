@@ -9,13 +9,16 @@ __cwd=`pwd`
 # Set virtual env
 __setve() {
   local ve="$1"
-  echo "$ve"
+  verbose "$ve"
   if [[ "$ve" == "" ]]; then
     echo "Must provide a name for the environment!"
-    exit
+    return
   fi
 
   if [[ "$__cwvem" =~ "py" ]]; then
+    
+    [[ "$ve" =~ ^(list|envs)$ ]] && ( echo "Current Python Environments:"; ls -A1 $__cwvem | cut -d '/' -f1 ) && return
+
     if [ -e "$__cwvem/$ve/Scripts/activate" -o -e "$__cwvem/$ve/bin/activate" ]; then
       # Activate the environment
       echo "Activating virtual environment $ve..."
@@ -29,6 +32,9 @@ __setve() {
       echo "Environment activated!"
     fi
   elif [[ "$__cwvem" =~ "js" ]]; then
+    
+    [[ "$ve" =~ ^(list|envs)$ ]] && ( echo "Current Node Environments:"; ls -A1 $__cwvem | cut -d '/' -f1 ) && return
+
     if [ -e "$__cwvem/$ve/activate-ve" ]; then
       NVENV="$ve"
       # Activate the environment
@@ -67,24 +73,31 @@ __delve() {
 __args() {
   for arg in $@; do
     case $arg in
-      -p | py | python )
+      -p | --python | py | python )
         __cwvem="$HOME/.vem/py"
         ;;
-      -j | js | javascript )
+      -j | --node | js | javascript | node )
         __cwvem="$HOME/.vem/js"
         ;;
-      -h | help )
+      -h | --help | help )
         cat $HOME/.vem/help
         ;;
-      -v | version )
+      -v | --version | version )
         cat $HOME/.vem/version
         ;;
-      -d | del | delete )
+      -d | --delete | del | delete )
         __del=true
+        ;;
+      -V | --verbose | verbose )
+        __dev=true
         ;;
       * )
         [ $__del ] && __delve $arg || __setve $arg
         ;;
     esac
   done
+}
+
+verbose() {
+  [[ $VERBOSE ]] && echo -e '\e[0;1;35m[VERBOSE]\e[0;0;0m '"$1"
 }

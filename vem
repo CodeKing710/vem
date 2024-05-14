@@ -13,7 +13,7 @@ source $HOME/.vem/.lib
 
 __vem() {
   # Parse args
-  [ "$1" == "" ] && ( cat $HOME/.vem/help | head -1; exit ) || __args $@
+  [ "$1" == "" ] && ( cat $HOME/.vem/help | head -1 ) || __args $@
 }
 
 __vem $@
