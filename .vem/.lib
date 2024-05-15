@@ -26,7 +26,7 @@ __setve() {
       echo "$__cwvem/$ve"
       return
     else
-      error "Must create the environment first!"
+      echo "Must create the environment first!"
     fi
     [[ "$ve" =~ ^(list|envs)$ ]] && ( echo "Current Python Environments:"; ls -A1 $__cwvem | cut -d '/' -f1 ) && return
 
@@ -47,7 +47,7 @@ __setve() {
       echo "$__cwvem/$ve"
       return
     else
-      error "Must create the environment first!"
+      echo "Must create the environment first!"
     fi
     [[ "$ve" =~ ^(list|envs)$ ]] && ( echo "Current Node Environments:"; ls -A1 $__cwvem | cut -d '/' -f1 ) && return
 
