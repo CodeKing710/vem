@@ -3,11 +3,11 @@
 # vem's installer
 install() {
   if [[ "$1" == '--sys' ]]; then local lib="/usr/local/lib" bin="/usr/local/bin/vem"; else local lib="$HOME" bin="$HOME/bin"; fi
-  local repo="$(find $HOME -type d -name vem)"
-  cp $repo/vem $bin/bin || return 1
-  cp -r $repo/.vem $lib || return 1
+  local repo="$(find "$HOME" -type d -name vem)"
+  cp -f "$repo"/vem "$bin"/vem || return 1
+  cp -f -r "$repo"/.vem "$lib"/ || return 1
   [[ "$(cat $HOME/.bashrc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source \$HOME/bin/vem\"\nalias vemp=\"source \$HOME/bin/vem py\"\nalias vemj=\"source \$HOME/bin/vem js\"" >> "$HOME"/.bashrc
-  echo "vem installed!"
+#  echo "vem installed!"
 }
 
 install "$@"

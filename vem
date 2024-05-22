@@ -3,36 +3,36 @@
 # vem's main code
 
 # Check for updates
-repo="$(find $HOME -type d -name vem)"
+repo="$(find "$HOME" -type d -name vem 2>/dev/null | head -1)"
 
 # Detect sudo
 if [[ $EUID -eq 0 ]]; then
   # Check for system-wide install
   [[ ! -d /usr/local/lib/.vem || \
-  `diff $repo/.vem/.lib /usr/local/lib/.vem/.lib` || \
-  `diff $repo/.vem/help /usr/local/lib/.vem/help` || \
-  `diff $repo/.vem/version /usr/local/lib/.vem/version` || \
-  `diff $repo/vem /usr/local/bin/vem` ]] && "$repo"/install --sys
+  $(diff "$repo"/.vem/.lib /usr/local/lib/.vem/.lib) || \
+  $(diff "$repo"/.vem/help /usr/local/lib/.vem/help) || \
+  $(diff "$repo"/.vem/version /usr/local/lib/.vem/version) || \
+  $(diff "$repo"/vem /usr/local/bin/vem) ]] && "$repo/install" --sys
 
   source /usr/local/lib/.vem/.lib
   prgroot="/usr/local/lib/.vem"
 else
-  [ ! -d ~/.vem ] && "$repo/install"
-  if [[ `diff $repo/.vem/.lib $HOME/.vem/.lib` || \
-  `diff $repo/.vem/help $HOME/.vem/help` || \
-  `diff $repo/.vem/version $HOME/.vem/version` || \
-  `diff $repo/vem $HOME/bin/vem` ]]; then echo "Updating vem..."; "$repo"/install; fi
+  if [[ ! -e "$HOME"/.vem || \
+  $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
+  $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
+  $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
+  $(diff "$repo"/vem "$HOME"/bin/vem) ]]; then echo "Updating vem..."; "$repo/install"; fi
 
   # Load lib
-  source $HOME/.vem/.lib
+  source "$HOME"/.vem/.lib
 fi
 
 __vem() {
   # Parse args
-  [ "$1" == "" ] && ( cat "$prgroot"/.vem/help | head -1 ) || __args "$@"
+  [ "$1" == "" ] && ( cat "$prgroot"/help | head -1 ) || __args "$@"
 }
 
 __vem "$@"
 
 # Cleanup for accidental sourcing
-unset __vem __args __cwd __cwvem __setve __repo __del __delve arg prgroot __path
+unset __vem __args __cwd __cwvem __setve __repo __del __delve arg prgroot __path VERBOSE

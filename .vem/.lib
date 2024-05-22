@@ -3,7 +3,7 @@
 # vem's Functions and Variables
 
 # Vars
-__cwd=`pwd`
+__cwd="$(pwd)"
 prgroot="$HOME/.vem"
 
 # Funcs
@@ -15,14 +15,14 @@ __setve() {
     echo "Must provide a name for the environment!"
     return
   elif [[ "$ve" == "listall" ]]; then
-    echo "Current Python Environments:"; ls -A1 $prgroot/py | cut -d '/' -f1
+    echo "Current Python Environments:"; ls -A1 "$prgroot/py" | cut -d '/' -f1
     echo ""
-    echo "Current Node Environments:"; ls -A1 $prgroot/js | cut -d '/' -f1
+    echo "Current Node Environments:"; ls -A1 "$prgroot/js" | cut -d '/' -f1
     return
   fi
 
   if [[ "$__cwvem" =~ "py" ]]; then
-    if [[ $__path && -d "$__cwvem/$ve" ]]; then
+    if [[ -n "$__path" && -d "$__cwvem/$ve" ]]; then
       echo "$__cwvem/$ve"
       return
     else
@@ -33,17 +33,14 @@ __setve() {
     if [ -e "$__cwvem/$ve/Scripts/activate" -o -e "$__cwvem/$ve/bin/activate" ]; then
       # Activate the environment
       echo "Activating virtual environment $ve..."
-      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null || . "$__cwvem/$ve/bin/activate"
-      echo "Environment activated!"
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!"
     else
       echo "Making virtual environment $ve..."
-      python -m venv "$__cwvem/$ve"
-      echo "Complete! Activating..."
-      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null || . "$__cwvem/$ve/bin/activate"
-      echo "Environment activated!"
+      python -m venv "$__cwvem/$ve" && echo "Complete! Activating..." && \
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!"
     fi
   elif [[ "$__cwvem" =~ "js" ]]; then
-    if [[ $__path && -e "$__cwvem/$ve" ]]; then
+    if [[ -n "$__path" && -e "$__cwvem/$ve" ]]; then
       echo "$__cwvem/$ve"
       return
     else
@@ -70,7 +67,7 @@ __setve() {
       echo "Environment activated! To install new packages, you must be in this directory! Path stays alive until terminal restart!"
     fi
   else
-    echo "Failed to find or create environment $ve!"
+    echo "Failed to find environment '$ve'!" # Generally only get here if not found
   fi
 }
 
@@ -87,8 +84,8 @@ __delve() {
 
 # Parse args
 __args() {
-  for arg in $@; do
-    case $arg in
+  for arg in "$@"; do
+    case "$arg" in
       -p | --python | py | python )
         __cwvem="$HOME/.vem/py"
         ;;
@@ -96,16 +93,16 @@ __args() {
         __cwvem="$HOME/.vem/js"
         ;;
       -h | --help | help )
-        cat $HOME/.vem/help
+        cat "$HOME/.vem/help"
         ;;
       -v | --version | version )
-        cat $HOME/.vem/version
+        cat "$HOME/.vem/version"
         ;;
       -d | --delete | del | delete )
         __del=true
         ;;
       -V | --verbose | verbose )
-        __dev=true
+        VERBOSE=true
         ;;
       -P | --path )
         __path=true
@@ -115,6 +112,7 @@ __args() {
         ;;
     esac
   done
+  unset arg;
 }
 
 verbose() {
