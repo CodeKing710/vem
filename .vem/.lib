@@ -74,8 +74,8 @@ __setve() {
 # Remove venv
 __delve() {
   local ve="$1"
-  if [ -d "$__cwvem/$ve" ]; then
-    rm "$__cwvem/$ve"
+  if [[ -e "$__cwvem/$ve" ]]; then
+    rm -r "$__cwvem/$ve"
     echo "Successfully removed virtual environment $ve!"
   else
     echo "Failed to remove virtual environment $ve!"
@@ -108,11 +108,10 @@ __args() {
         __path=true
         ;;
       * )
-        [ $__del ] && __delve $arg || __setve $arg
+        [[ -n "$__del" ]] && __delve "$arg" || __setve "$arg"
         ;;
     esac
   done
-  unset arg;
 }
 
 verbose() {

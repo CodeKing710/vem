@@ -35,4 +35,4 @@ __vem() {
 __vem "$@"
 
 # Cleanup for accidental sourcing
-unset __vem __args __cwd __cwvem __setve __repo __del __delve arg prgroot __path VERBOSE
+unset __vem __args __cwd __cwvem __setve __repo __del __delve arg prgroot __path VERBOSE verbose
