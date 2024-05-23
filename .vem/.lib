@@ -33,11 +33,11 @@ __setve() {
     if [ -e "$__cwvem/$ve/Scripts/activate" -o -e "$__cwvem/$ve/bin/activate" ]; then
       # Activate the environment
       echo "Activating virtual environment $ve..."
-      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!"
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!" >&2
     else
       echo "Making virtual environment $ve..."
       python -m venv "$__cwvem/$ve" && echo "Complete! Activating..." && \
-      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!"
+      . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && echo "Environment activated!" || . "$__cwvem/$ve/bin/activate" && echo "Environment activated!" || echo "Failed to create environment!" >&2
     fi
   elif [[ "$__cwvem" =~ "js" ]]; then
     if [[ -n "$__path" && -e "$__cwvem/$ve" ]]; then
@@ -67,7 +67,7 @@ __setve() {
       echo "Environment activated! To install new packages, you must be in this directory! Path stays alive until terminal restart!"
     fi
   else
-    echo "Failed to find environment '$ve'!" # Generally only get here if not found
+    echo "Failed to find environment '$ve'!" >&2 # Generally only get here if not found
   fi
 }
 
@@ -78,7 +78,7 @@ __delve() {
     rm -r "$__cwvem/$ve"
     echo "Successfully removed virtual environment $ve!"
   else
-    echo "Failed to remove virtual environment $ve!"
+    echo "Failed to remove virtual environment $ve!" >&2
   fi
 }
 
