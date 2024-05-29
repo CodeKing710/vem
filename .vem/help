@@ -1,1 +1,27 @@
-Usage: vem [-h|-v|--help|--version] <-p|-n> <ENV> [act|de]
+Usage: vem <-p|-n> <ENV> [-p|-d]
+
+Options:
+
+    -p | --python
+        Work with the Python environments. VEM will handle the activation of the environment, creating one if it doesn't exist
+
+    -n | --node
+        Work with the Node.js environments. VEM will handle the activation of the environment, creating one if it doesn't exist
+
+    -d | --delete
+        Delete the environment. If the environment doesn't exist, it will be skipped
+
+    -P | --path
+        Get the path of the environment specified
+
+    -V | --verbose
+        Verbose logging for VEM
+
+    -h | --help
+        Show this help message and exit
+
+    -v | --version
+        Show version and exit
+    
+
+For more information and available commands, visit https://github.com/CodeKing710/vem#readme.
