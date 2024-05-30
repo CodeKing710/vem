@@ -2,13 +2,13 @@
 
 # vem's installer
 install() {
-  if [[ "$1" == '--sys' ]]; then local lib="/usr/local/lib" bin="/usr/local/bin/vem"; else local lib="$HOME" bin="$HOME/bin"; fi
+  if [[ "$1" == '--sys' ]]; then local lib="/usr/local/lib" bin="/usr/local/bin/vem" rc="/etc/bash.bashrc"; else local lib="$HOME" bin="$HOME/bin" rc="$HOME/.bashrc"; fi
   local repo="$(find "$HOME" -type d -name vem)"
   cp -f "$repo"/vem "$bin"/vem || return 1
   cp -f -r "$repo"/.vem "$lib"/ || return 1
-  [[ ! -d "$repo"/.vem/py ]] && mkdir "$repo"/.vem/py
-  [[ ! -d "$repo"/.vem/js ]] && mkdir "$repo"/.vem/js
-  [[ "$(cat $HOME/.bashrc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source \$HOME/bin/vem\"\nalias vemp=\"source \$HOME/bin/vem py\"\nalias vemj=\"source \$HOME/bin/vem js\"" >> "$HOME"/.bashrc
+  [[ ! -d "$lib"/.vem/py ]] && mkdir "$lib"/.vem/py
+  [[ ! -d "$lib"/.vem/js ]] && mkdir "$lib"/.vem/js
+  [[ "$(cat $rc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source $bin/vem\"\nalias vemp=\"source $bin/vem py\"\nalias vemj=\"source $bin/vem js\"" >> "$rc"
  echo "vem installed!"
 }
 
