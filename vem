@@ -21,7 +21,7 @@ else
   $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
   $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
   $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
-  $(diff "$repo"/vem "$HOME"/bin/vem) ]]; then echo "Updating vem..."; "$repo/install"; fi
+  $(diff "$repo"/vem "$HOME"/bin/vem) ]]; then verbose "Updating VEM..."; "$repo/install"; fi
 
   # Load lib
   source "$HOME"/.vem/.lib

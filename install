@@ -9,7 +9,6 @@ install() {
   [[ ! -d "$lib"/.vem/py ]] && mkdir "$lib"/.vem/py
   [[ ! -d "$lib"/.vem/js ]] && mkdir "$lib"/.vem/js
   [[ "$(cat $rc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source $bin/vem\"\nalias vemp=\"source $bin/vem py\"\nalias vemj=\"source $bin/vem js\"" >> "$rc"
- echo "vem installed!"
 }
 
 install "$@"
