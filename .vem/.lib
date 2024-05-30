@@ -75,7 +75,7 @@ __setve() {
 __delve() {
   local ve="$1"
   if [[ -e "$__cwvem/$ve" ]]; then
-    rm -r "$__cwvem/$ve"
+    /bin/rm -r "$__cwvem/$ve"
     echo "Successfully removed virtual environment $ve!"
   else
     echo "Failed to remove virtual environment $ve!" >&2
