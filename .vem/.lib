@@ -7,6 +7,10 @@ __cwd="$(pwd)"
 prgroot="$HOME/.vem"
 
 # Funcs
+verbose() {
+  [[ $VERBOSE ]] && echo -e '\e[0;1;35m[VERBOSE]\e[0;0;0m '"$1"
+}
+
 # Set virtual env
 __setve() {
   local ve="$1"
@@ -34,7 +38,7 @@ __setve() {
       . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && verbose "Environment activated!" || . "$__cwvem/$ve/bin/activate" && verbose "Environment activated!" || echo "Failed to create environment!" >&2
     else
       verbose "Making virtual environment $ve..."
-      python -m venv "$__cwvem/$ve" && echo "Complete! Activating..." && \
+      python -m venv "$__cwvem/$ve" && verbose "Complete! Activating..." && \
       . "$__cwvem/$ve/Scripts/activate" 2>/dev/null && verbose "Environment activated!" || . "$__cwvem/$ve/bin/activate" && verbose "Environment activated!" || echo "Failed to create environment!" >&2
     fi
   elif [[ "$__cwvem" =~ "js" ]]; then
@@ -108,8 +112,4 @@ __args() {
         ;;
     esac
   done
-}
-
-verbose() {
-  [[ $VERBOSE ]] && echo -e '\e[0;1;35m[VERBOSE]\e[0;0;0m '"$1"
 }
