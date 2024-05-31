@@ -6,7 +6,7 @@
 repo="$(find "$HOME" -type d -name vem | grep repo)"
 
 # Detect location of vem (system-wide or user-specific)
-if [[ "$(command -v vem)" =~ 'usr' ]]; then
+if [[ -n "$(find /usr/local/bin -type f -name vem)" ]]; then
   [[ ! -e "$HOME"/.vem || \
   $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
   $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
