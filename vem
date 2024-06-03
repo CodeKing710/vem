@@ -6,18 +6,18 @@
 repo="$(find "$HOME" -type d -name vem | grep repo)"
 
 # Detect location of vem (system-wide or user-specific)
-if [[ -n "$(find /usr/local/bin -type f -name vem)" ]]; then
+if [[ -z "$([[ -e /usr/local/bin ]] && find /usr/local/bin -type f -name vem)" ]]; then
   [[ ! -e "$HOME"/.vem || \
   $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
   $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
   $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
-  $(diff "$repo"/vem /usr/local/bin/vem) ]] && "$repo/install" --sys
+  $(diff "$repo"/vem "$HOME"/bin/vem) ]] && "$repo/install"
 else
-  i[[ ! -e "$HOME/.vem" || \
+  [[ ! -e "$HOME/.vem" || \
   $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
   $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
   $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
-  $(diff "$repo"/vem "$HOME"/bin/vem) ]] && "$repo/install"
+  $(diff "$repo"/vem /usr/local/bin/vem) ]] && "$repo/install" --sys
 fi
 # Load lib
 source "$HOME"/.vem/.lib
