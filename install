@@ -4,13 +4,11 @@
 install() {
   local lib="$HOME" bin="$HOME/bin" rc="$HOME/.bashrc"
   local repo="$(find "$HOME" -type d -name vem | grep repo)"
-  [[ "$1" == "--sys" ]] && { sudo cp -f "$repo/vem" "/usr/local/bin" || return 1; } || {
-    cp -f "$repo"/vem "$bin" || return 1
-    cp -f -r "$repo"/.vem "$lib"/ || return 1
-    [[ ! -d "$lib"/.vem/py ]] && mkdir "$lib"/.vem/py
-    [[ ! -d "$lib"/.vem/js ]] && mkdir "$lib"/.vem/js
-    [[ "$(cat $rc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source vem\"\nalias vemp=\"vem py\"\nalias vemj=\"vem js\"" >> "$rc"
-  }
+  [[ "$1" == "--sys" ]] && { sudo cp -f "$repo/vem" "/usr/local/bin" || return 1; } || { cp -f "$repo"/vem "$bin" || return 1; }
+  cp -f -r "$repo"/.vem "$lib"/ || return 1
+  [[ ! -d "$lib/.vem/py" ]] && mkdir "$lib"/.vem/py
+  [[ ! -d "$lib/.vem/js" ]] && mkdir "$lib"/.vem/js
+  [[ "$(cat $rc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source vem\"\nalias vemp=\"vem py\"\nalias vemj=\"vem js\"" >> "$rc"
 }
 
 install "$@"
