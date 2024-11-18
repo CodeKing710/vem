@@ -104,7 +104,7 @@ __args() {
       -V | --verbose | verbose )
         VERBOSE=true
         ;;
-      -P | --path )
+      -P | --path | path )
         __path=true
         ;;
       * )

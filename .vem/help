@@ -2,25 +2,25 @@ Usage: vem <-p|-n> <ENV> [-p|-d]
 
 Options:
 
-    -p | --python
+    -p | --python | py | python
         Work with the Python environments. VEM will handle the activation of the environment, creating one if it doesn't exist
 
-    -n | --node
+    -n | --node | js | javascript | node
         Work with the Node.js environments. VEM will handle the activation of the environment, creating one if it doesn't exist
 
-    -d | --delete
-        Delete the environment. If the environment doesn't exist, it will be skipped
+    -d | --delete | del | delete
+        Delete the environment. If the environment doesn't exist, it will be skipped. Must be listed first!
 
-    -P | --path
-        Get the path of the environment specified
+    -P | --path | path
+        Get the path of the environment specified. Must be listed first!
 
-    -V | --verbose
+    -V | --verbose | verbose
         Verbose logging for VEM
 
-    -h | --help
+    -h | --help | help
         Show this help message and exit
 
-    -v | --version
+    -v | --version | version
         Show version and exit
     
 

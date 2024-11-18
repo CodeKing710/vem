@@ -1,0 +1,73 @@
+#!/bin/bash
+
+_vem_completions() {
+  local cur prev ARGS CMDS
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  ARGS="-p -j -h -v -d -V -P --python --node --help --version --delete --verbose --path"
+  CMDS="py python js javascript node help version del delete verbose path"
+
+  if [[ "$cur" == -* ]]; then
+    COMPREPLY=( $(compgen -W "$ARGS" -- "$cur") )
+    return 0
+  fi
+
+  case "${prev}" in
+    vem )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+    py | python )
+      COMPREPLY=( $(compgen -W "listall $(ls $HOME/.vem/py | sed -e 's|/||')" -- "$cur") )
+      return 0;;
+    js | javascript | node )
+      COMPREPLY=( $(compgen -W "listall $(ls $HOME/.vem/js | sed -e 's|/||')" -- "$cur") )
+      return 0;;
+    * )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+  esac
+}
+
+#Specialty completions for shorthand
+_vemp_completions() {
+  local cur prev ARGS CMDS
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  if [[ "$cur" == -* ]]; then
+    COMPREPLY=( $(compgen -W "$ARGS" -- "$cur") )
+    return 0
+  fi
+
+  case "${prev}" in
+    semver )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+    * )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+  esac
+}
+_vemj_completions() {
+  local cur prev ARGS CMDS
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  if [[ "$cur" == -* ]]; then
+    COMPREPLY=( $(compgen -W "$ARGS" -- "$cur") )
+    return 0
+  fi
+
+  case "${prev}" in
+    semver )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+    * )
+      COMPREPLY=( $(compgen -W "$CMDS" -- "$cur") )
+      return 0;;
+  esac
+}
+
+complete -F _vem_completions vem
+complete -F _vemp_completions vemp
+complete -F _vemj_completions vemj
