@@ -4,13 +4,13 @@
 install() {
   local lib="$HOME" bin="$HOME/bin" rc="$HOME/.bashrc"
   local repo="$(find "$HOME" -type d -name vem 2>/dev/null | grep repo)"
-  [[ "$1" == "--sys" ]] && { sudo cp -f "$repo/vem" "/usr/local/bin" || return 1; } || { cp -f "$repo"/vem "$bin" || return 1; }
+  cp -f "$repo"/vem "$bin" || return 1
   cp -f -r "$repo"/.vem "$lib"/ || return 1
   [[ ! -d "$lib/.vem/py" ]] && mkdir "$lib"/.vem/py
   [[ ! -d "$lib/.vem/js" ]] && mkdir "$lib"/.vem/js
   [[ "$(cat $rc | grep "alias vem")" == "" ]] && echo -e "\n# VEM forced sourcing\nalias vem=\"source vem\"\nalias vemp=\"vem py\"\nalias vemj=\"vem js\"" >> "$rc"
-  # Attempt to add completion to system, otherwise default to ~/.d/.c/
-  [[ "$1" == "--sys" ]] && { [[ -e "/etc/bash_completion.d/vem-comp.sh" ]] || cp -f "$repo/.vem/vem-comp" "/etc/bash_completion.d/vem-comp.sh"; } || { [[ -e "$HOME/.d/vem-comp" ]] || cp -f "$repo/.vem/vem-comp" "$HOME/.d/vem-comp"; }
+  # Attempt to add completion to system, otherwise default to ~/.d/
+  cp -f "$repo/.vem/vem-comp" "$HOME/.d/vem-comp"
   echo "VEM Installed!"
 }
 
