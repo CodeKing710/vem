@@ -3,7 +3,7 @@
 # vem's main code
 
 # Check for updates
-repo="$(find "$HOME" -type d -name vem | grep repo)"
+repo="$(find "$HOME" -type d -name vem 2>/dev/null | grep repo)"
 
 # Detect location of vem (system-wide or user-specific)
 if [[ -z "$([[ -e /usr/local/bin ]] && find /usr/local/bin -type f -name vem)" ]]; then
