@@ -1,0 +1,17 @@
+#/usr/bin/env bash
+
+# Grab the repo path just in case
+repo="$(cat "$HOME/.vem/app.cfg" | grep repo_path | cut -d= -f2)"
+
+# Remove ${s_appname} from the system
+rm -rf "$HOME/.vem"
+rm "$HOME/bin/vem"
+
+# Ask if the user would like to remove the repo
+read -rep "Would you like to remove the repo as well? [Y/n] " yn
+yn="$(echo "$yn" | tr '[:upper:]' '[:lower:]')"
+[[ "$yn" == 'y' ]] && rm -rf "$repo"
+
+# Let the user know that all of ${s_appname}'s files have been removed
+echo "All of vem's files have been removed."
+echo "You may need to update your \`~/.bashrc\` file to remove any VEM remnants."
