@@ -3,22 +3,18 @@
 # vem's main code
 
 # Check for updates
-repo="$(find "$HOME" -type d -name vem 2>/dev/null | grep repo)"
+if [[ -e "$HOME/repos/vem" ]]; then
+		repo="$HOME/repos/vem"
+	else
+		repo="$(find "$HOME" -type d -name vem 2>/dev/null)"
+	fi
 
-# Detect location of vem (system-wide or user-specific)
-if [[ -z "$([[ -e /usr/local/bin ]] && find /usr/local/bin -type f -name vem)" ]]; then
-  [[ ! -e "$HOME"/.vem || \
-  $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
-  $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
-  $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
-  $(diff "$repo"/vem "$HOME"/bin/vem) ]] && "$repo/install"
-else
-  [[ ! -e "$HOME/.vem" || \
-  $(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
-  $(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
-  $(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
-  $(diff "$repo"/vem /usr/local/bin/vem) ]] && "$repo/install" --sys
-fi
+# Autoupdate VEM
+[[ ! -e "$HOME"/.vem || \
+$(diff "$repo"/.vem/.lib "$HOME"/.vem/.lib) || \
+$(diff "$repo"/.vem/help "$HOME"/.vem/help) || \
+$(diff "$repo"/.vem/version "$HOME"/.vem/version) || \
+$(diff "$repo"/vem "$HOME"/bin/vem) ]] && "$repo/install"
 # Load lib
 source "$HOME"/.vem/.lib
 
